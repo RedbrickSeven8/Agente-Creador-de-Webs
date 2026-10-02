@@ -60,13 +60,15 @@ export const EditBtn = ({ className, onClick }: { className?: string, onClick: (
   const { t } = useTranslation()
 
   return (
-    <div
-      className={cn('px-2 flex space-x-1 items-center rounded-md  cursor-pointer', className)}
+    <button
+      type="button"
+      aria-label={t('common.operation.edit') || 'Editar parámetros'}
+      className={cn('px-2 py-1 flex space-x-1 items-center rounded-md cursor-pointer border-0 bg-transparent hover:bg-gray-100 text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 transition-colors', className)}
       onClick={onClick}
     >
       <PencilIcon className='w-3 h-3' />
       <span>{t('common.operation.edit')}</span>
-    </div>
+    </button>
   )
 }
 

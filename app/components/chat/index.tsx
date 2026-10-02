@@ -234,7 +234,13 @@ const Chat: FC<IChatProps> = ({
                     </div>
                   }
                 >
-                  <div className={`${s.sendBtn} w-8 h-8 cursor-pointer rounded-md`} onClick={handleSend}></div>
+                  <button
+                    type="button"
+                    aria-label={t("common.operation.send") || "Enviar mensaje"}
+                    title={t("common.operation.send") || "Enviar"}
+                    className={`${s.sendBtn} w-8 h-8 cursor-pointer rounded-md border-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-1`}
+                    onClick={handleSend}
+                  ></button>
                 </Tooltip>
               </div>
             </div>

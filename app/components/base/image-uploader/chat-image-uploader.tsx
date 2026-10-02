@@ -31,7 +31,7 @@ const UploadOnlyFromLocal: FC<UploadOnlyFromLocalProps> = ({
             relative flex items-center justify-center w-8 h-8 rounded-lg cursor-pointer
             ${hovering && 'bg-gray-100'}
           `}>
-            <ImagePlus className='w-4 h-4 text-gray-500' />
+            <ImagePlus className='w-4 h-4 text-gray-500' aria-label="Subir imagen" />
           </div>
         )
       }
@@ -74,12 +74,18 @@ const UploaderButton: FC<UploaderButtonProps> = ({
       placement='top-start'
     >
       <PortalToFollowElemTrigger onClick={handleToggle}>
-        <div className={`
-          relative flex items-center justify-center w-8 h-8 hover:bg-gray-100 rounded-lg
-          ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
-        `}>
+        <button
+          type="button"
+          aria-label="Subir imagen o adjunto"
+          title="Subir imagen"
+          disabled={disabled}
+          className={`
+            relative flex items-center justify-center w-8 h-8 hover:bg-gray-100 rounded-lg border-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600
+            ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
+          `}
+        >
           <ImagePlus className='w-4 h-4 text-gray-500' />
-        </div>
+        </button>
       </PortalToFollowElemTrigger>
       <PortalToFollowElemContent className='z-50'>
         <div className='p-2 w-[260px] bg-white rounded-lg border-[0.5px] border-gray-200 shadow-lg'>

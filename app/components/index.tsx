@@ -83,6 +83,7 @@ const Main: FC<IMainProps> = () => {
   } = useConversation()
 
   const [conversationIdChangeBecauseOfNew, setConversationIdChangeBecauseOfNew, getConversationIdChangeBecauseOfNew] = useGetState(false)
+  const [activeFolderName, setActiveFolderName] = useState<string | null>(null)
   const [isChatStarted, { setTrue: setChatStarted, setFalse: setChatNotStarted }] = useBoolean(false)
   const handleStartChat = (inputs: Record<string, any>) => {
     createNewChat()
@@ -373,9 +374,22 @@ const Main: FC<IMainProps> = () => {
       })
     }
 
+    // Inject project and active folder context into inputs and query preamble so Agent has full folder/project context
+    if (activeFolderName) {
+      toServerInputs.active_folder = activeFolderName
+      toServerInputs.workspace_folder = activeFolderName
+      toServerInputs.folder_context = activeFolderName
+    }
+
+    const contextPrefix = activeFolderName ? `[Contexto Carpeta: "${activeFolderName}"]
+` : ""
+    const enrichedQuery = (activeFolderName && !message.startsWith("[Contexto Carpeta:"))
+      ? `${contextPrefix}${message}`
+      : message
+
     const data: Record<string, any> = {
       inputs: toServerInputs,
-      query: message,
+      query: enrichedQuery,
       conversation_id: isNewConversation ? null : currConversationId,
     }
 
@@ -644,6 +658,8 @@ const Main: FC<IMainProps> = () => {
         onCurrentIdChange={handleConversationIdChange}
         currentId={currConversationId}
         copyRight={APP_INFO.copyright || APP_INFO.title}
+        activeFolder={activeFolderName}
+        onActiveFolderChange={setActiveFolderName}
       />
     )
   }

@@ -16,15 +16,17 @@ import LoadingAnim from '../loading-anim'
 import s from '../style.module.css'
 import Thought from '../thought'
 
-function OperationBtn({ innerContent, onClick, className }: { innerContent: React.ReactNode, onClick?: () => void, className?: string }) {
+function OperationBtn({ innerContent, onClick, className, ariaLabel }: { innerContent: React.ReactNode, onClick?: () => void, className?: string, ariaLabel?: string }) {
   return (
-    <div
-      className={`relative box-border flex items-center justify-center h-7 w-7 p-0.5 rounded-lg bg-white cursor-pointer text-gray-500 hover:text-gray-800 ${className ?? ''}`}
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      className={`relative box-border flex items-center justify-center h-7 w-7 p-0.5 rounded-lg bg-white cursor-pointer text-gray-500 hover:text-gray-800 border-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 transition-colors ${className ?? ''}`}
       style={{ boxShadow: '0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.05)' }}
-      onClick={onClick && onClick}
+      onClick={onClick}
     >
       {innerContent}
-    </div>
+    </button>
   )
 }
 
@@ -130,10 +132,10 @@ const Answer: FC<IAnswerProps> = ({
         : (
           <div className="flex gap-1">
             <Tooltip selector={`user-feedback-${randomString(16)}`} content={t('common.operation.like') as string}>
-              {OperationBtn({ innerContent: <IconWrapper><RatingIcon isLike={true} /></IconWrapper>, onClick: () => onFeedback?.(id, { rating: 'like' }) })}
+              {OperationBtn({ innerContent: <IconWrapper><RatingIcon isLike={true} /></IconWrapper>, onClick: () => onFeedback?.(id, { rating: 'like' }), ariaLabel: t('common.operation.like') || 'Me gusta' })}
             </Tooltip>
             <Tooltip selector={`user-feedback-${randomString(16)}`} content={t('common.operation.dislike') as string}>
-              {OperationBtn({ innerContent: <IconWrapper><RatingIcon isLike={false} /></IconWrapper>, onClick: () => onFeedback?.(id, { rating: 'dislike' }) })}
+              {OperationBtn({ innerContent: <IconWrapper><RatingIcon isLike={false} /></IconWrapper>, onClick: () => onFeedback?.(id, { rating: 'dislike' }), ariaLabel: t('common.operation.dislike') || 'No me gusta' })}
             </Tooltip>
           </div>
         )
